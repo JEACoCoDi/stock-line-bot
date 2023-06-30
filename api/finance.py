@@ -5,6 +5,9 @@ import matplotlib.pyplot as plt
 import datetime
 import pyimgur
 # from imgurpython import ImgurClient
+from io import BytesIO
+import lineTool
+import requests
 
 class Finance:
     def __init__(self):
@@ -25,18 +28,21 @@ class Finance:
         # 計算移動平均線
         df['MA20'] = df['Close'].rolling(window=20).mean()
         df['MA60'] = df['Close'].rolling(window=60).mean()
+        df['MA120'] = df['Close'].rolling(window=120).mean()      ###半年線
 
         # 從資料中提取最高價（high）和最低價（low） 
         high_values = df['High'].values 
         low_values = df['Low'].values
 
         # 計算 william 指數
+        #使用過去20天週期的計算方式:WILLIAM指數的計算公式為：(過去45天收盤最高價-當日收盤價) / 過去45天最高價 - 過去45天最低價) * -100
         window_size = 20
         high_values = df['High'].rolling(window_size).max()
         low_values = df['Low'].rolling(window_size).min()
         df['WILLIAMS'] = ((high_values - df['Close'][-1]) / (high_values - low_values)) * 100
 
         # 計算 MFI 資金流向指標
+        #MFI資金流向指標的計算公式為：100 - (100 / (1 + money_flow_ratio))
         adl = ((df['Close'] - df['Low']) - (df['High'] - df['Close'])) / (df['High'] - df['Low']) * df['Volume']
         adl = adl.cumsum()
         df['ADL'] = adl
@@ -61,7 +67,7 @@ class Finance:
         rs = avg_gain / avg_loss
         df['RSI'] = 100 - (100 / (1 + rs))
 
-        # 計算布林通道
+        # 計算20天的布林通道上下限，此部分可依照實際情況，修改成45天或90天布林通道
         df['std'] = df['Close'].rolling(window=20).std()
         df['upper'] = df['MA20'] + 2 * df['std']
         df['lower'] = df['MA20'] - 2 * df['std']
@@ -80,7 +86,9 @@ class Finance:
         # 找出最佳買入點
         df['signal'] = 0
         df.loc[(df['Close'] < df['lower'] * 1.05) & (df['RSI'] < 30) & (df['Close'] <= df['buy_price']), 'signal'] = 1
-
+        #這段程式碼是用來判斷是否有買入訊號的條件，其中包括股價低於布林通道下軌線（lower）的1.05倍、RSI指標小於30、且股價小於等於買入價格（buy_price）。如果符合這些條件，則會在對應的資料列中標記signal為1，表示有買入訊號。
+        #至於如何決定最佳買入點，這通常需要考慮多種因素，例如技術指標、基本面分析、市場趨勢等等。這些因素可以根據個人的投資策略和風險偏好進行綜合考慮，以找出最佳的買入點。建議在進行投資前，先進行充分的研究和分析，並制定出明確的投資策略和風險控制措施。
+        
         return df
     
     def upload(self):
@@ -99,12 +107,20 @@ class Finance:
     def getImg(self, symbol):
         df = self.getData(symbol)
         
+        #抓出今日日期
+        tonow = datetime.datetime.now()
+        Y1 = tonow.year
+        M1 = tonow.month
+        D1 = tonow.day
+        todaystr = str(Y1)+"/"+str(M1)+"/"+str(D1)
+        
         # 繪製趨勢圖
         fig, ax = plt.subplots(figsize=(16, 9))
 
         ax.plot(df.index, df['Close'], lw=3,marker='.',color='#FF0000', label='C_Price')
-        ax.plot(df.index, df['MA20'], lw=3,color='#EE7700', linestyle='-', label='MA20 day')
-        ax.plot(df.index, df['MA60'], lw=3,color='#7700BB', linestyle='-', label='MA60 day')
+        ax.plot(df.index, df['MA20'], lw=2,color='#EE7700', linestyle='-', label='MA20 day')
+        ax.plot(df.index, df['MA60'], lw=2,color='#008000', linestyle='-', label='MA60 day')
+        ax.plot(df.index, df['MA120'], lw=2,color='#7700BB', linestyle='-', label='MA120 day')
         ax.plot(df.index, df['upper'], color='k', linestyle='--', label='Bollinger Bands_Upper')
         ax.plot(df.index, df['lower'], color='k', linestyle='--', label='Bollinger Bands_Lower')
 
@@ -120,12 +136,35 @@ class Finance:
         ax2.legend(loc='upper left')
 
         ax.legend()
-        ax.set_title(symbol + '~' + self.getDate())
+        ax.set_title(symbol+'~'+todaystr)
         ax.set_xlabel('Date')
         ax.set_ylabel('Price')
 
-        fig.savefig("img.png")
-
+        #將趨勢圖傳送到LINE BOT中---------------------------------------------------------------------
+        #讀取趨勢圖轉換為將其保存到一個BytesIO對象中
+                    #fig.savefig("img.png")
+        buffer = BytesIO()
+        plt.savefig(buffer, format='png')
+        buffer.seek(0)
+        # 將趨勢圖轉換為二進制數據
+        image_binary = buffer.getvalue()
+        
+        # 傳送趨勢圖到Line群組
+        # 設定Line Notify服務的存取權杖:  【股市etf群組】
+        #access_token = 'OPkJV3by9MBoUFLMlfEFekwt5n5c5OJY09Zv5KRQ5ZJ'
+        access_token = 'CSwPVky+m3QO7YpXHql+EmU0ZW5CdwDQYOfM3Rn6Y16Epb7wNbkJTlsI7AqAq7t6d7+XzSPv89xy7zpsOXcG6479xeC962QeYYtKe8K7/RjbJWA34ckcfWUgUpJwhIS9CtQfZ6TpgnBSum7jfprFewdB04t89/1O/w1cDnyilFU='
+        keyword = symbol
+        url = 'https://notify-api.line.me/api/notify'
+        headers = {'Authorization': 'Bearer ' + access_token}
+                #data = {'message': 'Stock Price', 'imageFile': ('image.png', buffer, 'image/png')}
+                #response = requests.post(url, headers=headers, files=data)
+        data = {'message': "\n"+keyword}
+        files = {'imageFile': ('image.png', image_binary, 'image/png')}
+        response = requests.post(url, headers=headers, data=data, files=files)     #最正確語法
+        # 檢查HTTP響應
+        print(response.status_code)
+        print(response.text)
+        
         return self.upload()
     
     def getReplyMsg(self, symbol, name):
