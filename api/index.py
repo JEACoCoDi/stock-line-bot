@@ -30,11 +30,11 @@ BLUE_CHIP = {
     '6505.TW': '台塑',
     '1102.TW': '亞泥',
     '2324.TW': '仁寶',
-    '2308.TW':'台達電',
-    '3711.TW':'日月光投控',
-    '2382.TW':'廣達',
-    '3231.TW':'緯創',
-    '2301.TW':'光寶科'
+    '2308.TW': '台達電',
+    '3711.TW': '日月光投控',
+    '2382.TW': '廣達',
+    '3231.TW': '緯創',
+    '2301.TW': '光寶科'
 }
 FINANCIAL = {
     '2890.TW': '永豐金',
@@ -80,7 +80,7 @@ def handle_message(event):
     if event.message.type != "text":
         return
     
-    if msg == "選股":
+    if msg == "選股" or msg== " ":
         reply = TYPE
         message.append(TextSendMessage(text = reply))
     elif msg == "ETF" or msg == "etf" or msg == "1" or msg == "1.":
