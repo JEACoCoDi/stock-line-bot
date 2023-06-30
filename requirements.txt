@@ -6,5 +6,4 @@ yfinance
 matplotlib
 datetime
 pyimgur
-BytesIO
 lineTool
