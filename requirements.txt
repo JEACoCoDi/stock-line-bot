@@ -1,0 +1,8 @@
+Flask==2.2.2
+line-bot-sdk
+numpy
+pandas
+yfinance
+matplotlib
+datetime
+pyimgur
