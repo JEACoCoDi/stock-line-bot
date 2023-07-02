@@ -3,7 +3,7 @@ from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, ImageMessage, TextSendMessage, ImageSendMessage
 from api.finance import Finance
-# import os
+import os
 
 # ETF, 績優股, 金融股
 TYPE = "(1).股指ETF清單 \n(2).績優股清單 \n(3).金融股清單 \n(4).債券ETF清單 \n**可直接輸入您想要查詢的股票代號\n或輸入(1、2、3、4)查詢系統清單\n"\
@@ -152,5 +152,17 @@ def handle_message(event):
 
     return 
 
+
+def set_permissions():
+    path = "img.png"
+    permissions = 0o666  # 可读、可写权限
+
+    try:
+        os.chmod(path, permissions)
+        print(f"文件权限已修改为可读可写：{path}")
+    except OSError as e:
+        print(f"修改文件权限失败：{e}")
+
 if __name__ == "__main__":
     app.run()
+    set_permissions()
