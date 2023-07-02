@@ -16,7 +16,7 @@ class Finance:
 
     def set_permissions(self):
         path = "img.png"
-        permissions = 0o666  # 可读、可写权限
+        permissions = 0o777  # 可读、可写权限
 
         try:
             os.chmod(path, permissions)
@@ -156,7 +156,7 @@ class Finance:
         #將趨勢圖傳送到LINE BOT中---------------------------------------------------------------------
         #讀取趨勢圖轉換為將其保存到一個BytesIO對象中
         self.set_permissions()
-        fig.savefig("img.png")
+        fig.savefig("img.png") # OSError: [Errno 30] Read-only file system: 'img.png'
         #buffer = BytesIO()
         # plt.savefig('image.png', format='png')
         #buffer.seek(0)
