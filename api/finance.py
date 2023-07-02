@@ -144,9 +144,9 @@ class Finance:
 
         #將趨勢圖傳送到LINE BOT中---------------------------------------------------------------------
         #讀取趨勢圖轉換為將其保存到一個BytesIO對象中
-                    #fig.savefig("img.png")
+        fig.savefig("img.png")
         #buffer = BytesIO()
-        plt.savefig('image.png', format='png')
+        # plt.savefig('image.png', format='png')
         #buffer.seek(0)
         # 將趨勢圖轉換為二進制數據
         #image_binary = buffer.getvalue()    
