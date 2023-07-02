@@ -123,15 +123,19 @@ def handle_message(event):
         message.append(TextSendMessage(text = reply))
     elif msg in ETF or msg in BLUE_CHIP or msg in FINANCIAL or msg in BOND_ETF:
         if msg in ETF:
+            msg += '.TW'
             reply = finance.getReplyMsg(msg, ETF[msg])
             #img_url = finance.getImg(msg)
         elif msg in BLUE_CHIP:
+            msg += '.TW'
             reply = finance.getReplyMsg(msg, BLUE_CHIP[msg])
             #img_url = finance.getImg(msg)
         elif msg in FINANCIAL:
+            msg += '.TW'
             reply = finance.getReplyMsg(msg, FINANCIAL[msg])
             #img_url = finance.getImg(msg)
         elif msg in BOND_ETF:
+            msg += '.TWO'
             reply = finance.getReplyMsg(msg, BOND_ETF[msg])
             #img_url = finance.getImg(msg)
         else:

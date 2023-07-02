@@ -21,16 +21,7 @@ class Finance:
         dateStr = str(Y1)+"/"+str(M1)+"/"+str(D1)    
         return dateStr
     
-    def getData(self, symbol):
-        
-        #處理SYMBOL的訊息
-        tt = -999
-        tt = symbol.find('B')     #若找不到會回傳 -1 
-        if tt == -1 :       #為非債券型
-            symbol = symbol + ".TW"
-        else:
-            symbol = symbol + ".TWO"
-                
+    def getData(self, symbol):                
         # 下載股價資料-最近1年
         df = yf.download(symbol, period='1y')
         
@@ -115,14 +106,6 @@ class Finance:
 
 
     def getImg(self, symbol):
-
-        #處理SYMBOL的訊息
-        tt = -999
-        tt = symbol.find('B')     #若找不到會回傳 -1 
-        if tt == -1 :       #為非債券型
-            symbol = symbol + ".TW"
-        else:
-            symbol = symbol + ".TWO"
         
         df = self.getData(symbol)
         
@@ -171,14 +154,6 @@ class Finance:
         return self.upload()
     
     def getReplyMsg(self, symbol, name):
-
-        #處理SYMBOL的訊息
-        tt = -999
-        tt = symbol.find('B')     #若找不到會回傳 -1 
-        if tt == -1 :       #為非債券型
-            symbol = symbol + ".TW"
-        else:
-            symbol = symbol + ".TWO"
 
         df = self.getData(symbol)
 
