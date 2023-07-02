@@ -137,7 +137,7 @@ def handle_message(event):
             reply = '抱歉，請再試一次'
 
         message.append(TextSendMessage(text = reply))
-        img_url = "http://drive.google.com/file/d/1ibZKokvRfCz_R2Wzfpa1vCFfZsArpHaj/view?usp=sharing"
+        img_url = "https://drive.google.com/file/d/1ibZKokvRfCz_R2Wzfpa1vCFfZsArpHaj/view?usp=sharing"
         message.append(ImageSendMessage(
             original_content_url = img_url,
             preview_image_url = img_url

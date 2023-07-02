@@ -201,16 +201,16 @@ class Finance:
                     + 'RSI指標為 ' + str(round(last_rsi, 2))
             
         replyMsg = self.getDate() + "\n"
-        replyMsg += symbol + ' ' + name + '\n\n'
+        replyMsg += symbol + " " + name + "\n\n"
         replyMsg += keyword + "\n\n"        
-        replyMsg += "*最佳買點[D45]: " + str(round(last_buy_price, 2)) + "元\n"
-        replyMsg += "*布林通道上限[D45]: " + str(round(df['upper'][-1],2)) + "\n"
-        replyMsg += "*月均線參考值[D20]: " + str(round(df['MA20'][-1],2)) + "\n"
-        replyMsg += "*季均線參考值[D60]: " + str(round(df['MA60'][-1],2)) + "\n"
-        replyMsg += "*布林通道下限[D45]: " + str(round(df['lower'][-1],2)) + "\n"
-        replyMsg += "*Williams[D20]: " + str(round(df['WILLIAMS'][-1],2)) + "%\n"
+        replyMsg += "*最佳買點[D20]: " + str(round(last_buy_price, 2)) + "元\n"
+        replyMsg += "*布林通道上限[BU20]: " + str(round(df['upper'][-1],2)) + "\n"
+        replyMsg += "*月均線參考值[MA20]: " + str(round(df['MA20'][-1],2)) + "\n"
+        replyMsg += "*季均線參考值[MA60]: " + str(round(df['MA60'][-1],2)) + "\n"
+        replyMsg += "*布林通道下限[BL20]: " + str(round(df['lower'][-1],2)) + "\n"
+        replyMsg += "*Williams[WD20]: " + str(round(df['WILLIAMS'][-1],2)) + "%\n"
         replyMsg += "*MFI資金流向指標: " + str(round(df['MFI'][-1],2)) + "\n"
-        replyMsg += "*A/D Line指標: " + str(round(df['ADL'][-1]/10000,2)) + '\n'
+        replyMsg += "*A/D Line指標: " + str(round(df['ADL'][-1]/10000,2)) + "\n"
         #replyMsg += '操作建議: \n'
         #replyMsg += keyword + "\n"
 
