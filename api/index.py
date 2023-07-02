@@ -2,7 +2,7 @@ from flask import Flask, request, abort
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, ImageMessage, TextSendMessage, ImageSendMessage
-from api.finance import Finance
+from finance import Finance
 # import os
 
 # ETF, 績優股, 金融股
@@ -124,21 +124,21 @@ def handle_message(event):
     elif msg in ETF or msg in BLUE_CHIP or msg in FINANCIAL or msg in BOND_ETF:
         if msg in ETF:
             reply = finance.getReplyMsg(msg + '.TW', ETF[msg])
-            #img_url = finance.getImg(msg)
+            img_url = finance.getImg(msg + '.TW')
         elif msg in BLUE_CHIP:
             reply = finance.getReplyMsg(msg + '.TW', BLUE_CHIP[msg])
-            #img_url = finance.getImg(msg)
+            img_url = finance.getImg(msg + '.TW')
         elif msg in FINANCIAL:
             reply = finance.getReplyMsg(msg + '.TW', FINANCIAL[msg])
-            #img_url = finance.getImg(msg)
+            img_url = finance.getImg(msg + '.TW')
         elif msg in BOND_ETF:
             reply = finance.getReplyMsg(msg + '.TWO', BOND_ETF[msg])
-            #img_url = finance.getImg(msg)
+            img_url = finance.getImg(msg + '.TWO')
         else:
             reply = '抱歉，請再試一次'
 
         message.append(TextSendMessage(text = reply))
-        img_url = "https://drive.google.com/file/d/1ibZKokvRfCz_R2Wzfpa1vCFfZsArpHaj/view?usp=sharing"
+        # img_url = "https://drive.google.com/file/d/1ibZKokvRfCz_R2Wzfpa1vCFfZsArpHaj/view?usp=sharing"
         message.append(ImageSendMessage(
             original_content_url = img_url,
             preview_image_url = img_url
