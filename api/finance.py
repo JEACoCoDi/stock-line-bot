@@ -14,7 +14,7 @@ class Finance:
     def __init__(self):
         self.symbol = {}
 
-    def set_permissions():
+    def set_permissions(self):
         path = "img.png"
         permissions = 0o666  # 可读、可写权限
 
