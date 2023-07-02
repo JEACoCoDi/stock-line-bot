@@ -39,7 +39,7 @@ class Finance:
         
         # 計算移動平均線
         df['MA20'] = df['Close'].rolling(window=20).mean()
-        df['MA45'] = df['Close'].rolling(window=45).mean()
+        #df['MA45'] = df['Close'].rolling(window=45).mean()
         df['MA60'] = df['Close'].rolling(window=60).mean()
         df['MA120'] = df['Close'].rolling(window=120).mean()      ###半年線
 
@@ -48,8 +48,8 @@ class Finance:
         low_values = df['Low'].values
 
         # 計算 william 指數
-        #使用過去45天週期的計算方式:WILLIAM指數的計算公式為：(過去45天收盤最高價-當日收盤價) / 過去45天最高價 - 過去45天最低價) * -100
-        window_size = 45
+        #使用過去20天週期的計算方式:WILLIAM指數的計算公式為：(過去20天收盤最高價-當日收盤價) / 過去20天最高價 - 過去20天最低價) * -100
+        window_size = 20
         high_values = df['High'].rolling(window_size).max()
         low_values = df['Low'].rolling(window_size).min()
         df['WILLIAMS'] = ((high_values - df['Close'][-1]) / (high_values - low_values)) * 100
@@ -80,10 +80,10 @@ class Finance:
         rs = avg_gain / avg_loss
         df['RSI'] = 100 - (100 / (1 + rs))
 
-        # 計算45天的布林通道上下限，此部分可依照實際情況，修改成20天或90天布林通道
-        df['std'] = df['Close'].rolling(window=45).std()
-        df['upper'] = df['MA45'] + 2 * df['std']
-        df['lower'] = df['MA45'] - 2 * df['std']
+        # 計算20天的布林通道上下限，此部分可依照實際情況，修改成45天或90天布林通道
+        df['std'] = df['Close'].rolling(window=20).std()
+        df['upper'] = df['MA20'] + 2 * df['std']
+        df['lower'] = df['MA20'] - 2 * df['std']
 
         # 利用前一個月的布林通道上下限來計算最佳買入價格和停損價格
         df['diff'] = df['upper'] - df['lower']
