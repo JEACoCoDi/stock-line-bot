@@ -22,18 +22,15 @@ class Finance:
         return dateStr
     
     def getData(self, symbol):
-        '''
-        #處理SYMBOL的訊息
-        tt , gg , hh = -999
-        tt = symbol.find('.TW')     #若找步道會回傳 -1 
-        gg = symbol.find('TWII')     #若找步道會回傳 -1
-        hh = symbol.find('SOX')     #若找步道會回傳 -1
-        if tt == -1 or gg == -1 :
-            symbol = symbol + ".TW"
         
-        if gg == 0 or hh == 0 :
-            symbol = '^' + symbol
-        '''        
+        #處理SYMBOL的訊息
+        tt = -999
+        tt = symbol.find('B')     #若找不到會回傳 -1 
+        if tt == -1 :       #為非債券型
+            symbol = symbol + ".TW"
+        else:
+            symbol = symbol + ".TWO"
+                
         # 下載股價資料-最近1年
         df = yf.download(symbol, period='1y')
         
@@ -118,6 +115,15 @@ class Finance:
 
 
     def getImg(self, symbol):
+
+        #處理SYMBOL的訊息
+        tt = -999
+        tt = symbol.find('B')     #若找不到會回傳 -1 
+        if tt == -1 :       #為非債券型
+            symbol = symbol + ".TW"
+        else:
+            symbol = symbol + ".TWO"
+        
         df = self.getData(symbol)
         
         #抓出今日日期
@@ -165,6 +171,15 @@ class Finance:
         return self.upload()
     
     def getReplyMsg(self, symbol, name):
+
+        #處理SYMBOL的訊息
+        tt = -999
+        tt = symbol.find('B')     #若找不到會回傳 -1 
+        if tt == -1 :       #為非債券型
+            symbol = symbol + ".TW"
+        else:
+            symbol = symbol + ".TWO"
+
         df = self.getData(symbol)
 
         last_close = df['Close'][-1]
