@@ -10,12 +10,5 @@
       "src": "/(.*)",
       "dest": "api/index.py"
     }
-  ],
-  "public": true,
-  "files": [
-    {
-      "source": "img.png",
-      "permissions": "0644"
-    }
   ]
 }
