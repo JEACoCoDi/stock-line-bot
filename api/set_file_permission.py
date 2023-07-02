@@ -1,11 +1,11 @@
 import os
 
-def handler(req, res):
+def set_file_permissions():
     path = 'img.png'
-    permissions = 0o644
+    permissions = 0o666
 
-    os.chmod(path, permissions)
-
-    res.status(200).json({
-        'message': 'File permissions updated successfully.'
-    })
+    try:
+        os.chmod(path, permissions)
+        print(f"文件权限已修改为可读可写可修改：{path}")
+    except OSError as e:
+        print(f"修改文件权限失败：{e}")
