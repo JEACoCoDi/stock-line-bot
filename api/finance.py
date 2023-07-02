@@ -181,28 +181,28 @@ class Finance:
             keyword = symbol + f'近日收盤價[{last_close:.2f}元], 已高於MA20月均線及MA60季均線且超過布林上限。\n' \
                     + '強烈建議可賣出。\n' \
                     + '賣出參考價格:' + str(round(last_close*1.005, 2)) + '元。(發大財了~)\n' \
-                    + 'RSI指標為' + str(round(last_rsi, 2))   
+                    + 'RSI指標為 ' + str(round(last_rsi, 2))   
         elif last_close >= df['MA20'][-1] and last_close >= df['upper'][-1]*0.995:
             keyword = symbol + f'近日收盤價[{last_close:.2f}元], 已高於MA20月均線且超過布林上限。\n' \
                     + '若有賣出計畫，建議可賣出。\n' \
                     + '賣出參考價格為' + str(round(last_close*1.005, 2)) + '元。\n' \
-                    + 'RSI指標為' + str(round(last_rsi, 2)) 
+                    + 'RSI指標為 ' + str(round(last_rsi, 2)) 
         elif last_close <= df['MA20'][-1] and last_close <= df['MA60'][-1] and last_close <= df['lower'][-1]*1.005:
             keyword = symbol + f'近日收盤價[{last_close:.2f}元], 已低於MA20月均線及MA60季均線且低於布林下限。\n' \
                     +'強烈建議可加碼買進!!! (讓您發財~)\n' \
-                    +'RSI指標為' + str(round(last_rsi, 2))    
+                    +'RSI指標為 ' + str(round(last_rsi, 2))    
         elif last_close <= df['MA20'][-1] and last_close <= df['lower'][-1]*1.005:
             keyword = symbol + f'近日收盤價[{last_close:.2f}元], 已低於MA20月均線且低於布林下限。\n' \
                     + '若有要加碼買進的計畫，建議可以準備了喔。 (讓您發財~)\n' \
-                    + 'RSI指標為' + str(round(last_rsi, 2))    
+                    + 'RSI指標為 ' + str(round(last_rsi, 2))    
         else:
-            keyword = symbol + f'最近一天收盤價[{last_close:.2f}元], 還在布林通道內。\n' \
+            keyword = symbol + f'近日收盤價[{last_close:.2f}元], 還在布林通道內。\n' \
                     + '建議持續觀望~\n' \
-                    + 'RSI指標為' + str(round(last_rsi, 2))
+                    + 'RSI指標為 ' + str(round(last_rsi, 2))
             
         replyMsg = self.getDate() + "\n"
-        replyMsg += '【' + symbol + '】 ' + name + '\n\n'
-        replyMsg += keyword + "\n"        
+        replyMsg += symbol + ' ' + name + '\n\n'
+        replyMsg += keyword + "\n\n"        
         replyMsg += "*最佳買點[D45]: " + str(round(last_buy_price, 2)) + "元\n"
         replyMsg += "*布林通道上限[D45]: " + str(round(df['upper'][-1],2)) + "\n"
         replyMsg += "*月均線參考值[D20]: " + str(round(df['MA20'][-1],2)) + "\n"
@@ -210,7 +210,7 @@ class Finance:
         replyMsg += "*布林通道下限[D45]: " + str(round(df['lower'][-1],2)) + "\n"
         replyMsg += "*Williams[D20]: " + str(round(df['WILLIAMS'][-1],2)) + "%\n"
         replyMsg += "*MFI資金流向指標: " + str(round(df['MFI'][-1],2)) + "\n"
-        replyMsg += "*A/D Line指標: " + str(round(df['ADL'][-1]/10000,2)) + '\n\n'
+        replyMsg += "*A/D Line指標: " + str(round(df['ADL'][-1]/10000,2)) + '\n'
         #replyMsg += '操作建議: \n'
         #replyMsg += keyword + "\n"
 
