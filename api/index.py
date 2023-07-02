@@ -153,15 +153,7 @@ def handle_message(event):
     return 
 
 
-def set_permissions():
-    path = "img.png"
-    permissions = 0o666  # 可读、可写权限
 
-    try:
-        os.chmod(path, permissions)
-        print(f"文件权限已修改为可读可写：{path}")
-    except OSError as e:
-        print(f"修改文件权限失败：{e}")
 
 if __name__ == "__main__":
     app.run()

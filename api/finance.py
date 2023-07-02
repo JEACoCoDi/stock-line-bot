@@ -4,6 +4,7 @@ import yfinance as yf
 import matplotlib.pyplot as plt
 import datetime
 import pyimgur
+import os
 # from imgurpython import ImgurClient
 #from io import BytesIO
 #import lineTool
@@ -12,6 +13,16 @@ import pyimgur
 class Finance:
     def __init__(self):
         self.symbol = {}
+
+    def set_permissions():
+        path = "img.png"
+        permissions = 0o666  # 可读、可写权限
+
+        try:
+            os.chmod(path, permissions)
+            print(f"文件权限已修改为可读可写：{path}")
+        except OSError as e:
+            print(f"修改文件权限失败：{e}")
 
     def getDate(self):
         DateTime = datetime.datetime.now()
@@ -144,6 +155,7 @@ class Finance:
 
         #將趨勢圖傳送到LINE BOT中---------------------------------------------------------------------
         #讀取趨勢圖轉換為將其保存到一個BytesIO對象中
+        self.set_permissions()
         fig.savefig("img.png")
         #buffer = BytesIO()
         # plt.savefig('image.png', format='png')
