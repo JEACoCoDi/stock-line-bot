@@ -1,7 +1,6 @@
 import os
 
-def set_file_permissions():
-    path = 'img.png'
+def set_file_permissions(path):
     permissions = 0o666
 
     try:

@@ -10,18 +10,5 @@
       "src": "/(.*)",
       "dest": "api/index.py"
     }
-  ],
-  "functions": {
-    "setFilePermissions": {
-      "handler": "api/set_file_permissions.set_file_permissions",
-      "events": [
-        {
-          "http": {
-            "method": "post",
-            "path": "/api/set-file-permissions"
-          }
-        }
-      ]
-    }
-  }
+  ]
 }
