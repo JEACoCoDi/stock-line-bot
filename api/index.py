@@ -136,6 +136,7 @@ def handle_message(event):
             img_url = finance.getImg(msg + '.TWO')
         else:
             reply = '抱歉，請再試一次'
+            message.append(TextSendMessage(text = reply))
 
         message.append(TextSendMessage(text = reply))
         # img_url = "https://drive.google.com/file/d/1ibZKokvRfCz_R2Wzfpa1vCFfZsArpHaj/view?usp=sharing"
@@ -145,6 +146,7 @@ def handle_message(event):
         ))
     else:
         reply = "我不知道你在說什麼"
+        message.append(TextSendMessage(text = reply))
 
     line_bot_api.reply_message(event.reply_token, message)
 
