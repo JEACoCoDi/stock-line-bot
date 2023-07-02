@@ -5,9 +5,9 @@ import matplotlib.pyplot as plt
 import datetime
 import pyimgur
 # from imgurpython import ImgurClient
-from io import BytesIO
-import lineTool
-import requests
+#from io import BytesIO
+#import lineTool
+#import requests
 
 class Finance:
     def __init__(self):
@@ -143,27 +143,11 @@ class Finance:
         #將趨勢圖傳送到LINE BOT中---------------------------------------------------------------------
         #讀取趨勢圖轉換為將其保存到一個BytesIO對象中
                     #fig.savefig("img.png")
-        buffer = BytesIO()
-        plt.savefig(buffer, format='png')
-        buffer.seek(0)
+        #buffer = BytesIO()
+        plt.savefig('image.png', format='png')
+        #buffer.seek(0)
         # 將趨勢圖轉換為二進制數據
-        image_binary = buffer.getvalue()
-        
-        # 傳送趨勢圖到Line群組
-        # 設定Line Notify服務的存取權杖:  【股市etf群組】
-        #access_token = 'OPkJV3by9MBoUFLMlfEFekwt5n5c5OJY09Zv5KRQ5ZJ'
-        access_token = 'CSwPVky+m3QO7YpXHql+EmU0ZW5CdwDQYOfM3Rn6Y16Epb7wNbkJTlsI7AqAq7t6d7+XzSPv89xy7zpsOXcG6479xeC962QeYYtKe8K7/RjbJWA34ckcfWUgUpJwhIS9CtQfZ6TpgnBSum7jfprFewdB04t89/1O/w1cDnyilFU='
-        keyword = symbol
-        url = 'https://notify-api.line.me/api/notify'
-        headers = {'Authorization': 'Bearer ' + access_token}
-                #data = {'message': 'Stock Price', 'imageFile': ('image.png', buffer, 'image/png')}
-                #response = requests.post(url, headers=headers, files=data)
-        data = {'message': "\n"+keyword}
-        files = {'imageFile': ('image.png', image_binary, 'image/png')}
-        response = requests.post(url, headers=headers, data=data, files=files)     #最正確語法
-        # 檢查HTTP響應
-        print(response.status_code)
-        print(response.text)
+        #image_binary = buffer.getvalue()    
         
         return self.upload()
     
