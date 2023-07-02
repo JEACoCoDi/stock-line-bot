@@ -6,19 +6,22 @@ from api.finance import Finance
 # import os
 
 # ETF, 績優股, 金融股
-TYPE = "1. ETF \n2. 績優股 \n3. 金融股"
+TYPE = "(1).股指ETF清單 \n(2).績優股清單 \n(3).金融股清單 \n(4).債券ETF清單 \n**可直接輸入您想要查詢的股票代號\n或輸入(1、2、3)查詢系統清單"
 ETF = {
-    '00878.TW': '國泰永續高股息', 
-    '00919.TW': '群益台灣精選高息', 
-    '00713.TW': '元大台灣高息低波', 
-    '0056.TW': '元大高股息', 
+    '0050.TW': '元大台灣50',     
+    '0056.TW': '元大高股息',
     '006208.TW': '富邦台灣50', 
-    '00690.TW': '兆豐藍籌30', 
-    '00850.TW': '元大臺灣ESG永續', 
-    '00701.TW': '國泰股利精選30',
-    '00927.TW': '群益半導體收益',
+    '00646.TW': '元大S&P500',
+    '00657.TW': '國泰日經225',
+    '00690.TW': '兆豐藍籌30',
+    '00701.TW': '國泰股利精選30',  
+    '00713.TW': '元大台灣高息低波',
+    '00757.TW': '統一FANG+',
     '00830.TW': '國泰費城半導體',
-    '00757.TW': '統一FANG+'
+    '00850.TW': '元大臺灣ESG永續',     
+    '00878.TW': '國泰永續高股息', 
+    '00919.TW': '群益台灣精選高息',
+    '00927.TW': '群益半導體收益'
 }
 BLUE_CHIP = {
     '^TWII': '台灣加權指數',
@@ -40,6 +43,19 @@ FINANCIAL = {
     '2890.TW': '永豐金',
     '2886.TW': '兆豐金',
     '2885.TW': '元大金'
+}
+BOND_ETF = {
+    '00679B.TW': '元大美債20年',
+    '00687B.TW': '國泰20年美債',
+    '00696B.TW': '富邦美債20年',
+    '00764B.TW': '群益25年美債',
+    '00768B.TW': '復華20年美債',
+    '00779B.TW': '凱基美債25+',
+    '00795B.TW': '中信美國公債20年',
+    '00857B.TW': '永豐20年美公債',
+    '00720B.TW': '元大投資級公司債',
+    '00725B.TW': '國泰投資級公司債',
+    '00740B.TW': '富邦全球投等債'
 }
 
 # line_bot_api = LineBotApi('CnxTIV3ZENKBF4uLOFI2x2I2wwG7Y0ILmp0pR+TvHbE/pbTPpTxw3ea5qrfsfB/T4xnXZdwuBZHgFK+eXz/bE86B8Ge+YBtEt6mEduMjFf5Pi/VsNv5PrUkgK+AtTFKAKF1H05phg7v3dkKtDuSzYgdB04t89/1O/w1cDnyilFU=')
@@ -80,7 +96,7 @@ def handle_message(event):
     if event.message.type != "text":
         return
     
-    if msg == "選股" or msg== " ":
+    if msg == "選股" or msg== "0":
         reply = TYPE
         message.append(TextSendMessage(text = reply))
     elif msg == "ETF" or msg == "etf" or msg == "1" or msg == "1.":
@@ -98,7 +114,12 @@ def handle_message(event):
         for key, val in FINANCIAL.items():
             reply += key + " : " + val + "\n"
         message.append(TextSendMessage(text = reply))
-    elif msg in ETF or msg in BLUE_CHIP or msg in FINANCIAL:
+    elif msg == "債券ETF" or msg == "4" or msg == "4.":
+        reply = "債券ETF: \n"
+        for key, val in BOND_ETF.items():
+            reply += key + " : " + val + "\n"
+        message.append(TextSendMessage(text = reply))
+    elif msg in ETF or msg in BLUE_CHIP or msg in FINANCIAL or msg in BOND_ETF:
         if msg in ETF:
             reply = finance.getReplyMsg(msg, ETF[msg])
             #img_url = finance.getImg(msg)
@@ -107,6 +128,9 @@ def handle_message(event):
             #img_url = finance.getImg(msg)
         elif msg in FINANCIAL:
             reply = finance.getReplyMsg(msg, FINANCIAL[msg])
+            #img_url = finance.getImg(msg)
+        elif msg in BOND_ETF:
+            reply = finance.getReplyMsg(msg, BOND_ETF[msg])
             #img_url = finance.getImg(msg)
         else:
             reply = '抱歉，請再試一次'
