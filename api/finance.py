@@ -1,14 +1,7 @@
 import numpy as np
 import pandas as pd  
 import yfinance as yf
-import matplotlib.pyplot as plt
 import datetime
-import pyimgur
-import os
-# from imgurpython import ImgurClient
-#from io import BytesIO
-#import lineTool
-#import requests
 
 class Finance:
     def __init__(self):
@@ -92,69 +85,7 @@ class Finance:
         #至於如何決定最佳買入點，這通常需要考慮多種因素，例如技術指標、基本面分析、市場趨勢等等。這些因素可以根據個人的投資策略和風險偏好進行綜合考慮，以找出最佳的買入點。建議在進行投資前，先進行充分的研究和分析，並制定出明確的投資策略和風險控制措施。
         
         return df
-    
-    def upload(self):
-        client_id = 'cbac1b726bffaa2'
-        # client_secret = 'aa6359f77337408decf5e590c70a13b6fcba346b'
-        # client = ImgurClient(client_id, client_secret)
-
-        im = pyimgur.Imgur(client_id)
-        path = "img.png"
-        uploaded_image = im.upload_image(path, title='Uploaded with PyImgur')
-        # print(uploaded_image.link)
-        return uploaded_image.link
-
-
-
-    def getImg(self, symbol):
-        
-        df = self.getData(symbol)
-        
-        #抓出今日日期
-        tonow = datetime.datetime.now()
-        Y1 = tonow.year
-        M1 = tonow.month
-        D1 = tonow.day
-        todaystr = str(Y1)+"/"+str(M1)+"/"+str(D1)
-        
-        # 繪製趨勢圖
-        fig, ax = plt.subplots(figsize=(16, 9))
-
-        ax.plot(df.index, df['Close'], lw=3,marker='.',color='#FF0000', label='C_Price')
-        ax.plot(df.index, df['MA20'], lw=2,color='#EE7700', linestyle='-', label='MA20 day')
-        ax.plot(df.index, df['MA60'], lw=2,color='#008000', linestyle='-', label='MA60 day')
-        ax.plot(df.index, df['MA120'], lw=2,color='#7700BB', linestyle='-', label='MA120 day')
-        ax.plot(df.index, df['upper'], color='k', linestyle='--', label='Bollinger Bands_Upper')
-        ax.plot(df.index, df['lower'], color='k', linestyle='--', label='Bollinger Bands_Lower')
-
-        ax.fill_between(df.index, df['upper'], df['lower'], alpha=0.2)
-
-        # 顯示最近一天收盤價的RSI值
-        ax2 = ax.twinx()
-        ax2.plot(df.index, df['RSI'], lw=1,color='b', label='RSI')
-        ax2.axhline(y=30, lw=1,color='g', linestyle='--')
-        ax2.axhline(y=70, lw=1,color='g', linestyle='--')
-        ax2.set_ylim([0, 100])
-        ax2.set_ylabel('RSI')
-        ax2.legend(loc='upper left')
-
-        ax.legend()
-        ax.set_title(symbol+'~'+todaystr)
-        ax.set_xlabel('Date')
-        ax.set_ylabel('Price')
-
-        #將趨勢圖傳送到LINE BOT中---------------------------------------------------------------------
-        #讀取趨勢圖轉換為將其保存到一個BytesIO對象中
-        self.set_permissions()
-        fig.savefig("img.png") # OSError: [Errno 30] Read-only file system: 'img.png'
-        #buffer = BytesIO()
-        # plt.savefig('image.png', format='png')
-        #buffer.seek(0)
-        # 將趨勢圖轉換為二進制數據
-        #image_binary = buffer.getvalue()    
-        
-        return self.upload()
-    
+  
     def getReplyMsg(self, symbol, name):
 
         df = self.getData(symbol)
