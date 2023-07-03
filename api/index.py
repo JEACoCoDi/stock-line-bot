@@ -28,18 +28,19 @@ ETF = {
 BLUE_CHIP = {
     '^TWII': '台灣加權指數',
     '^SOX': '美股費城半導體指數',
-    '2356': '英業達',
-    '2330': '台積電', 
-    '2454': '聯發科', 
-    '2357': '華碩', 
-    '6505': '台塑',
-    '1102': '亞泥',
-    '2324': '仁寶',
+    '1102': '亞泥',    
+    '2301': '光寶科',
     '2308': '台達電',
-    '3711': '日月光投控',
+    '2317': '鴻海',
+    '2324': '仁寶',
+    '2330': '台積電',
+    '2356': '英業達',
+    '2357': '華碩',  
     '2382': '廣達',
+    '2454': '聯發科', 
     '3231': '緯創',
-    '2301': '光寶科'
+    '3711': '日月光投控',
+    '6505': '台塑'    
 }
 FINANCIAL = {
     '2890': '永豐金',
@@ -124,28 +125,33 @@ def handle_message(event):
     elif msg in ETF or msg in BLUE_CHIP or msg in FINANCIAL or msg in BOND_ETF:
         if msg in ETF:
             reply = finance.getReplyMsg(msg + '.TW', ETF[msg])
-            img_url = finance.getImg(msg + '.TW')
+            img_symbol = msg
+            # img_url = finance.getImg(msg + '.TW')
         elif msg in BLUE_CHIP:
             reply = finance.getReplyMsg(msg + '.TW', BLUE_CHIP[msg])
-            img_url = finance.getImg(msg + '.TW')
+            img_symbol = msg
+            # img_url = finance.getImg(msg + '.TW')
         elif msg in FINANCIAL:
             reply = finance.getReplyMsg(msg + '.TW', FINANCIAL[msg])
-            img_url = finance.getImg(msg + '.TW')
+            img_symbol = msg
+            # img_url = finance.getImg(msg + '.TW')
         elif msg in BOND_ETF:
             reply = finance.getReplyMsg(msg + '.TWO', BOND_ETF[msg])
-            img_url = finance.getImg(msg + '.TWO')
+            img_symbol = msg
+            # img_url = finance.getImg(msg + '.TWO')
         else:
-            reply = '抱歉，請再試一次'
+            reply = 'Sony~ Try Again~'
             message.append(TextSendMessage(text = reply))
 
         message.append(TextSendMessage(text = reply))
         # img_url = "https://drive.google.com/file/d/1ibZKokvRfCz_R2Wzfpa1vCFfZsArpHaj/view?usp=sharing"
+        img_url = f"http://charles.jea.com.tw/linebot/{img_symbol}.png"
         message.append(ImageSendMessage(
             original_content_url = img_url,
             preview_image_url = img_url
         ))
     else:
-        reply = "我不知道你在說什麼"
+        reply = "抱歉~輸入代號目前不在清單內喔~"
         message.append(TextSendMessage(text = reply))
 
     line_bot_api.reply_message(event.reply_token, message)

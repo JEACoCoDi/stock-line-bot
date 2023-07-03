@@ -14,16 +14,6 @@ class Finance:
     def __init__(self):
         self.symbol = {}
 
-    def set_permissions(self):
-        path = "img.png"
-        permissions = 0o777  # 可读、可写权限
-
-        try:
-            os.chmod(path, permissions)
-            print(f"文件权限已修改为可读可写：{path}")
-        except OSError as e:
-            print(f"修改文件权限失败：{e}")
-
     def getDate(self):
         DateTime = datetime.datetime.now()
         Y1 = DateTime.year
