@@ -139,7 +139,7 @@ def handle_message(event):
             message.append(TextSendMessage(text = reply))
 
         message.append(TextSendMessage(text = reply))
-        img_url = f"http://charles.jea.com.tw/linebot/{img_symbol}.png"
+        img_url = f"https://charles.jea.com.tw/linebot/{img_symbol}.png"
         message.append(ImageSendMessage(
             original_content_url = img_url,
             preview_image_url = img_url
