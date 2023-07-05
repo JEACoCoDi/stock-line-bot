@@ -139,11 +139,11 @@ def handle_message(event):
             message.append(TextSendMessage(text = reply))
 
         message.append(TextSendMessage(text = reply))
-        img_url = f"http://charles.jea.com.tw/linebot/{img_symbol}.png"
-        message.append(ImageSendMessage(
-            original_content_url = img_url,
-            preview_image_url = img_url
-        ))
+        img_url = f"https://charles.jea.com.tw/linebot/{img_symbol}.png"
+        # message.append(ImageSendMessage(
+        #     original_content_url = img_url,
+        #     preview_image_url = img_url
+        # ))
     else:
         reply = "抱歉~輸入代號目前不在清單內喔~"
         message.append(TextSendMessage(text = reply))
