@@ -83,7 +83,10 @@ class Finance:
         df.loc[(df['Close'] < df['lower'] * 1.05) & (df['RSI'] < 30) & (df['Close'] <= df['buy_price']), 'signal'] = 1
         #這段程式碼是用來判斷是否有買入訊號的條件，其中包括股價低於布林通道下軌線（lower）的1.05倍、RSI指標小於30、且股價小於等於買入價格（buy_price）。如果符合這些條件，則會在對應的資料列中標記signal為1，表示有買入訊號。
         #至於如何決定最佳買入點，這通常需要考慮多種因素，例如技術指標、基本面分析、市場趨勢等等。這些因素可以根據個人的投資策略和風險偏好進行綜合考慮，以找出最佳的買入點。建議在進行投資前，先進行充分的研究和分析，並制定出明確的投資策略和風險控制措施。
-        
+
+        #計算股價與季線的差距
+        price_difference = df['Close'][-1] - df['MA60']
+
         return df
   
     def getReplyMsg(self, symbol, name):
@@ -134,6 +137,8 @@ class Finance:
         replyMsg += "*Williams[WD20]: " + str(round(df['WILLIAMS'][-1],2)) + "%\n"
         replyMsg += "*MFI資金流向指標: " + str(round(df['MFI'][-1],2)) + "\n"
         replyMsg += "*A/D Line指標: " + str(round(df['ADL'][-1]/10000,2)) + "\n"
+        replyMsg += "*************" + "\n"
+        replyMsg += "*目前股價與季線的差距: " + str(round(price_difference,2)) + "\n"
         #replyMsg += '操作建議: \n'
         #replyMsg += keyword + "\n"
 
