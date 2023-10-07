@@ -85,7 +85,7 @@ class Finance:
         #至於如何決定最佳買入點，這通常需要考慮多種因素，例如技術指標、基本面分析、市場趨勢等等。這些因素可以根據個人的投資策略和風險偏好進行綜合考慮，以找出最佳的買入點。建議在進行投資前，先進行充分的研究和分析，並制定出明確的投資策略和風險控制措施。
 
         #計算股價與季線的差距
-        price_difference = df['Close'][-1] - df['MA60']
+        # price_difference = df['Close'][-1] - df['MA60']
 
         return df
   
@@ -139,8 +139,8 @@ class Finance:
         replyMsg += "*Williams[WD20]: " + str(round(df['WILLIAMS'][-1],2)) + "%\n"
         replyMsg += "*MFI資金流向指標: " + str(round(df['MFI'][-1],2)) + "\n"
         replyMsg += "*A/D Line指標: " + str(round(df['ADL'][-1]/10000,2)) + "\n"
-        replyMsg += "*************" + "\n"
-        replyMsg += "*目前股價與季線的差距: " + str(round(price_difference,2)) + "\n"
+        # replyMsg += "*************" + "\n"
+        # replyMsg += "*目前股價與季線的差距: " + str(round(price_difference,2)) + "\n"
         #replyMsg += '操作建議: \n'
         #replyMsg += keyword + "\n"
 
