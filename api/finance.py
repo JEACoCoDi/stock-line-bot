@@ -194,7 +194,7 @@ class Finance:
         replyMsg += keyword + "\n\n"
         replyMsg += "===開盤參數===" + "\n"                
         replyMsg += "*最高價H: " + str(round(df['High'][-1], 2)) + "元\n"
-        replyMsg += "*收盤價C: " + str(round(df['Close'][-1], 2)) + "元 (" + mark + str(round((prop/df['Close'][-2])*100,2)) + "%)" + "\n"
+        replyMsg += "*收盤價C: " + str(round(df['Close'][-1], 2)) + "元 (" + mark + "%)" + "\n"
         replyMsg += "*最低價L: " + str(round(df['Low'][-1], 2)) + "元\n"
         replyMsg += "*成交量V: " + int(df['Volume'][-1]/1000) + "張\n"
         replyMsg += "*K(9): " + str(round(df['K'][-1], 2)) + "\n"
