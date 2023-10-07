@@ -114,15 +114,13 @@ class Finance:
         last_rsi = df['RSI'][-1]
 
         #計算收盤漲跌
-        if df['Close'][-1] > df['Close'][-2] :
+        if df['Close'][-1] >= df['Close'][-2]:
             mark = "漲"
             #prop = round(((df['Close'][-1] - df['Close'][-2])/df['Close'][-2]) * 100,2)
-        elif df['Close'][-1] == df['Close'][-2] :
-            mark = "平"
         else:
             mark = "跌" 
         #計算收盤漲跌比例
-        prop = round(((df['Close'][-1] - df['Close'][-2])/df['Close'][-2]) * 100,2)
+        prop = str(round(((df['Close'][-1] - df['Close'][-2])/df['Close'][-2])*100,2))
 
         #計算季均價差值
         price_difference = df['Close'][-1] - df['MA60'][-1]
@@ -195,7 +193,7 @@ class Finance:
         replyMsg += keyword + "\n\n"
         replyMsg += "===開盤參數===" + "\n"                
         replyMsg += "*最高價H: " + str(round(df['High'][-1], 2)) + "元\n"
-        replyMsg += "*收盤價C: " + str(round(df['Close'][-1], 2)) + "元 (" + mark + prop +"%)\n"
+        replyMsg += "*收盤價C: " + str(round(df['Close'][-1], 2)) + "元 (" + mark + prop + "%)\n"
         replyMsg += "*最低價L: " + str(round(df['Low'][-1], 2)) + "元\n"
         replyMsg += "*成交量V: " + str(df['Volume'][-1]/1000) + "張\n"
         replyMsg += "*K(9): " + str(round(df['K'][-1], 2)) + "\n"
