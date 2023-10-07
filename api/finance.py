@@ -140,7 +140,9 @@ class Finance:
         replyMsg += "*MFI資金流向指標: " + str(round(df['MFI'][-1],2)) + "\n"
         replyMsg += "*A/D Line指標: " + str(round(df['ADL'][-1]/10000,2)) + "\n"
         replyMsg += "*************" + "\n"
-        replyMsg += "*目前股價與季線的差距: " + str(round(price_difference,2)) + "\n"
+        replyMsg += "*目前股價與季線的差距: " + str(round(price_difference,2))  + ",(" + str(round((price_difference/df['MA60'][-1])*100,2)) + ")" + "\n"
+        replyMsg += "*漲1.5%的股價數值: " + str(round(df['Close'][-1] * 1.015,2))  + "\n"
+        replyMsg += "*跌1.5%的股價數值: " + str(round(df['Close'][-1] * 0.985,2))  + "\n"
         # replyMsg += '操作建議: \n'
         # replyMsg += keyword + "\n"
 
