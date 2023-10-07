@@ -124,22 +124,22 @@ def handle_message(event):
     elif msg in ETF or msg in BLUE_CHIP or msg in FINANCIAL or msg in BOND_ETF:
         if msg in ETF:
             reply = finance.getReplyMsg(msg + '.TW', ETF[msg])
-            img_symbol = msg
+            # img_symbol = msg
         elif msg in BLUE_CHIP:
             reply = finance.getReplyMsg(msg + '.TW', BLUE_CHIP[msg])
-            img_symbol = msg
+            # img_symbol = msg
         elif msg in FINANCIAL:
             reply = finance.getReplyMsg(msg + '.TW', FINANCIAL[msg])
-            img_symbol = msg
+            # img_symbol = msg
         elif msg in BOND_ETF:
             reply = finance.getReplyMsg(msg + '.TWO', BOND_ETF[msg])
-            img_symbol = msg
+            # img_symbol = msg
         else:
             reply = 'Sony~ Try Again~'
             message.append(TextSendMessage(text = reply))
 
         message.append(TextSendMessage(text = reply))
-        img_url = f"https://charles.jea.com.tw/linebot/{img_symbol}.png"
+        # img_url = f"https://charles.jea.com.tw/linebot/{img_symbol}.png"
         # message.append(ImageSendMessage(
         #     original_content_url = img_url,
         #     preview_image_url = img_url

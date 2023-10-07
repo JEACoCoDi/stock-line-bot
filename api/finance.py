@@ -98,7 +98,7 @@ class Finance:
         last_stop_loss_price = df['stop_loss_price'][-1]
         last_rsi = df['RSI'][-1]
         #計算季均價差值
-        # price_difference = df['Close'][-1] - df['MA60'][-1]
+        price_difference = df['Close'][-1] - df['MA60'][-1]
 
         if df['signal'][-1] == 1:
             keyword = symbol + f'近日收盤價[{last_close:.2f}元], 已經出現買入訊號了!\n' \
@@ -140,8 +140,8 @@ class Finance:
         replyMsg += "*MFI資金流向指標: " + str(round(df['MFI'][-1],2)) + "\n"
         replyMsg += "*A/D Line指標: " + str(round(df['ADL'][-1]/10000,2)) + "\n"
         replyMsg += "*************" + "\n"
-        # replyMsg += "*目前股價與季線的差距: " + str(round(price_difference,2)) + "\n"
-        #replyMsg += '操作建議: \n'
+        replyMsg += "*目前股價與季線的差距: " + str(round(price_difference,2)) + "\n"
+        replyMsg += '操作建議: \n'
         #replyMsg += keyword + "\n"
 
         return replyMsg
