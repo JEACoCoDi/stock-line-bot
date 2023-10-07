@@ -88,7 +88,26 @@ class Finance:
         # price_difference = df['Close'][-1] - df['MA60']
 
         return df
-  
+
+##2023/10/07新增MACD的計算
+    def calculate_macd(symbol, short_window=12, long_window=26, signal_window=9):
+        # 下載股價資料
+        data = yf.download(symbol, period='1y')
+        
+        # 計算短期移動平均
+        data['SMA'] = data['Close'].rolling(window=short_window).mean()
+        
+        # 計算長期移動平均
+        data['LMA'] = data['Close'].rolling(window=long_window).mean()
+        
+        # 計算DIF
+        data['DIF'] = data['SMA'] - data['LMA']
+        
+        # 計算MACD
+        data['MACD'] = data['DIF'].ewm(span=signal_window, adjust=False).mean()
+        
+        return data
+
     def getReplyMsg(self, symbol, name):
 
         df = self.getData(symbol)
@@ -97,8 +116,24 @@ class Finance:
         last_buy_price = df['buy_price'][-1]
         last_stop_loss_price = df['stop_loss_price'][-1]
         last_rsi = df['RSI'][-1]
+
         #計算季均價差值
         price_difference = df['Close'][-1] - df['MA60'][-1]
+
+        # 計算MACD~~~~~~~~~
+        #當計算某檔股票的MACD值時，可以按照以下步驟進行： 
+        #1. 首先，計算短期移動平均（Short-term Moving Average，簡稱SMA）。這是最近一段時間內股票價格的平均值。可以選擇一個時間窗口，例如10天或12天，然後計算這段時間內的每日收盤價的平均值。 
+        #2. 接下來，計算長期移動平均（Long-term Moving Average，簡稱LMA）。這是更長一段時間內股票價格的平均值。可以選擇一個較長的時間窗口，例如26天或30天，然後計算這段時間內的每日收盤價的平均值。 
+        #3. 然後，計算DIF（DIF = SMA - LMA）。這是短期移動平均和長期移動平均之間的差異。 
+        #4. 接著，計算MACD（Moving Average Convergence Divergence）。這是DIF的九日加權移動平均值（Exponential Moving Average，簡稱EMA）。可以使用以下公式來計算九日EMA：EMA = (DIF * 2 / (9 + 1)) + 上一日的EMA * (1 - 2 / (9 + 1))。         
+        # 計算短期移動平均
+        df['SMA'] = df['Close'].rolling(window=12).mean()
+        # 計算長期移動平均
+        df['LMA'] = df['Close'].rolling(window=26).mean()        
+        # 計算DIF
+        df['DIF'] = df['SMA'] - df['LMA']        
+        # 計算MACD
+        df['MACD'] = df['DIF'].ewm(span=9, adjust=False).mean()
 
         if df['signal'][-1] == 1:
             keyword = f'收盤價[{last_close:.2f}元], 已經出現買入訊號了!\n' \
@@ -139,7 +174,8 @@ class Finance:
         replyMsg += "*布林通道下限[BL20]: " + str(round(df['lower'][-1],2)) + "\n"
         replyMsg += "*Williams[WD20]: " + str(round(df['WILLIAMS'][-1],2)) + "%\n"
         replyMsg += "*MFI資金流向指標: " + str(round(df['MFI'][-1],2)) + "\n"
-        replyMsg += "*A/D Line指標: " + str(round(df['ADL'][-1]/10000,2)) + "\n\n"
+        replyMsg += "*A/D Line指標: " + str(round(df['ADL'][-1]/10000,2)) + "\n"
+        replyMsg += "*MACD[12,26,9]指標: " + str(round(df['MACD'][-1],2)) + "\n\n"
         replyMsg += "===操作參考===" + "\n"
         replyMsg += "*最近一日股價: " + str(round(df['Close'][-1],2)) + "\n"
         replyMsg += "*股價與季線的差距: " + str(round(price_difference,2))  + " (" + str(round((price_difference/df['MA60'][-1])*100,2)) + "%)" + "\n"
