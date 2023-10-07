@@ -97,6 +97,8 @@ class Finance:
         last_buy_price = df['buy_price'][-1]
         last_stop_loss_price = df['stop_loss_price'][-1]
         last_rsi = df['RSI'][-1]
+        #計算季均價差值
+        price_difference = df['Close'][-1] - df['MA60'][-1]
 
         if df['signal'][-1] == 1:
             keyword = symbol + f'近日收盤價[{last_close:.2f}元], 已經出現買入訊號了!\n' \
