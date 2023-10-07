@@ -141,7 +141,7 @@ class Finance:
         replyMsg += "*A/D Line指標: " + str(round(df['ADL'][-1]/10000,2)) + "\n"
         replyMsg += "*************" + "\n"
         replyMsg += "*目前股價與季線的差距: " + str(round(price_difference,2)) + "\n"
-        replyMsg += '操作建議: \n'
-        #replyMsg += keyword + "\n"
+        # replyMsg += '操作建議: \n'
+        # replyMsg += keyword + "\n"
 
         return replyMsg
