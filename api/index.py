@@ -20,9 +20,11 @@ ETF = {
     '00830': '國泰費城半導體',
     '00850': '元大臺灣ESG永續',     
     '00878': '國泰永續高股息', 
+    '00915': '凱基優選高股息30', 
     '00919': '群益台灣精選高息',
     '00923': '群益台灣ESG低碳',
-    '00927': '群益半導體收益'
+    '00927': '群益半導體收益',
+    '00929': '復華台灣科技優息'
 }
 BLUE_CHIP = {
     '^TWII': '台灣加權指數',
@@ -57,7 +59,8 @@ BOND_ETF = {
     '00857B': '永豐20年美公債',
     '00720B': '元大投資級公司債',
     '00725B': '國泰投資級公司債',
-    '00740B': '富邦全球投等債'
+    '00740B': '富邦全球投等債',
+    '00931B': '統一20年美債'
 }
 
 # line_bot_api = LineBotApi('CnxTIV3ZENKBF4uLOFI2x2I2wwG7Y0ILmp0pR+TvHbE/pbTPpTxw3ea5qrfsfB/T4xnXZdwuBZHgFK+eXz/bE86B8Ge+YBtEt6mEduMjFf5Pi/VsNv5PrUkgK+AtTFKAKF1H05phg7v3dkKtDuSzYgdB04t89/1O/w1cDnyilFU=')
