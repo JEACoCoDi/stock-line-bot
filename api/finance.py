@@ -92,17 +92,13 @@ class Finance:
 ##2023/10/07新增MACD的計算
     def calculate_macd(symbol, short_window=12, long_window=26, signal_window=9):
         # 下載股價資料
-        data = yf.download(symbol, period='1y')
-        
+        data = yf.download(symbol, period='1y')        
         # 計算短期移動平均
-        data['SMA'] = data['Close'].rolling(window=short_window).mean()
-        
+        data['SMA'] = data['Close'].rolling(window=short_window).mean()        
         # 計算長期移動平均
-        data['LMA'] = data['Close'].rolling(window=long_window).mean()
-        
+        data['LMA'] = data['Close'].rolling(window=long_window).mean()        
         # 計算DIF
-        data['DIF'] = data['SMA'] - data['LMA']
-        
+        data['DIF'] = data['SMA'] - data['LMA']        
         # 計算MACD
         data['MACD'] = data['DIF'].ewm(span=signal_window, adjust=False).mean()
         
@@ -120,7 +116,7 @@ class Finance:
         #計算季均價差值
         price_difference = df['Close'][-1] - df['MA60'][-1]
 
-        # 計算MACD~~~~~~~~~
+        # 計算MACD~~~~~~~~~   2023/10/10增加
         #當計算某檔股票的MACD值時，可以按照以下步驟進行： 
         #1. 首先，計算短期移動平均（Short-term Moving Average，簡稱SMA）。這是最近一段時間內股票價格的平均值。可以選擇一個時間窗口，例如10天或12天，然後計算這段時間內的每日收盤價的平均值。 
         #2. 接下來，計算長期移動平均（Long-term Moving Average，簡稱LMA）。這是更長一段時間內股票價格的平均值。可以選擇一個較長的時間窗口，例如26天或30天，然後計算這段時間內的每日收盤價的平均值。 
@@ -134,6 +130,26 @@ class Finance:
         df['DIF'] = df['SMA'] - df['LMA']        
         # 計算MACD
         df['MACD'] = df['DIF'].ewm(span=9, adjust=False).mean()
+
+        # 計算K,D,J值~~~~~~~  2023/10/10增加
+            #當計算KDJ值時，可以按照以下步驟進行： 
+            #1. 首先，計算最高價的N日最高價（Highest High，簡稱HH）和最低價的N日最低價（Lowest Low，簡稱LL）。你可以選擇一個時間窗口，例如9天，然後計算這段時間內的最高價和最低價。 
+            #2. 接下來，計算未成熟隨機值RSV（Raw Stochastic Value）。RSV的計算公式為：RSV = (今日收盤價 - LL) / (HH - LL) * 100。 
+            #3. 然後，計算K值。K值是RSV的M日平滑移動平均值（Simple Moving Average，簡稱SMA）。你可以選擇一個時間窗口，例如3天，然後計算這段時間內的RSV的平均值。 
+            #4. 接著，計算D值。D值是K值的N日平滑移動平均值。你可以選擇一個時間窗口，例如3天，然後計算這段時間內的K值的平均值。 
+            #5. 最後，計算J值。J值是3 * K值 - 2 * D值。         
+        # 計算最高價的N日最高價，9天
+        df['HH'] = df['High'].rolling(window=9).max()        
+        # 計算最低價的N日最低價，9天
+        df['LL'] = df['Low'].rolling(window=9).min()        
+        # 計算RSV
+        df['RSV'] = (df['Close'] - df['LL']) / (df['HH'] - df['LL']) * 100        
+        # 計算K值；K是RSV的3日平滑移動平均值
+        df['K'] = df['RSV'].rolling(window=3).mean()        
+        # 計算D值；D是K值的3日平滑移動平均值
+        df['D'] = df['K'].rolling(window=3).mean()        
+        # 計算J值
+        df['J'] = 3 * df['K'] - 2 * df['D']
 
         if df['signal'][-1] == 1:
             keyword = f'收盤價[ {last_close:.2f}元 ]\n已經出現買入訊號了!!!\n' \
@@ -166,6 +182,12 @@ class Finance:
         replyMsg = self.getDate() + "\n"
         replyMsg += "【" + symbol + " " + name + "】" + "\n\n"
         replyMsg += keyword + "\n\n"
+        replyMsg += "===開盤參數===" + "\n"                
+        replyMsg += "*最高價: " + str(round(df['High'][-1], 2)) + "元\n"
+        replyMsg += "*收盤價: " + str(round(df['Close'][-1], 2)) + "元\n"
+        replyMsg += "*最低價: " + str(round(df['Low'][-1], 2)) + "元\n"
+        replyMsg += "*K(9): " + str(round(df['K'][-1], 2)) + "\n"
+        replyMsg += "*D(9): " + str(round(df['D'][-1], 2)) + "\n\n"
         replyMsg += "===指標參考===" + "\n"                
         replyMsg += "*最佳買點[D20]: " + str(round(last_buy_price, 2)) + "元\n"
         replyMsg += "*布林通道上限[BU_20]: " + str(round(df['upper'][-1],2)) + "\n"
