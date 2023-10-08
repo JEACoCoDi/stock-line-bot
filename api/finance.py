@@ -121,7 +121,7 @@ class Finance:
             mark = "跌" 
 
         #計算收盤漲跌比例
-        prop = df['Close'][-1] - df['Close'][-2]
+        #prop = df['Close'][-1] - df['Close'][-2]
 
         #計算季均價差值
         price_difference = df['Close'][-1] - df['MA60'][-1]
@@ -194,7 +194,8 @@ class Finance:
         replyMsg += keyword + "\n\n"
         replyMsg += "===開盤參數===" + "\n"                
         replyMsg += "*最高價H: " + str(round(df['High'][-1], 2)) + "元\n"
-        replyMsg += "*收盤價C: " + str(round(df['Close'][-1], 2)) + "元 (" + mark + "%)" + "\n"
+        #replyMsg += "*收盤價C: " + str(round(df['Close'][-1], 2)) + "元 (" + mark + "%)" + "\n"
+        replyMsg += "*收盤價C: " + str(round(df['Close'][-1], 2)) + "元 (" + mark + ")" + "\n"
         replyMsg += "*最低價L: " + str(round(df['Low'][-1], 2)) + "元\n"
         replyMsg += "*成交量V: " + int(df['Volume'][-1]/1000) + "張\n"
         replyMsg += "*K(9): " + str(round(df['K'][-1], 2)) + "\n"
@@ -218,6 +219,14 @@ class Finance:
         replyMsg += "*漲1.5%的股價: " + str(round(df['Close'][-1] * 1.015,2))  + "\n"
         replyMsg += "*跌1.5%的股價: " + str(round(df['Close'][-1] * 0.985,2))  + "\n"
         replyMsg += "*跌2.0%的股價: " + str(round(df['Close'][-1] * 0.980,2))  + "\n"
+        if df['Close'][-1] < df['MA20'][-1]:
+            replyMsg += "*跌破月線! " + "\n"
+        elif df['Close'][-1] < df['MA60'][-1] :
+            replyMsg += "*跌破季線!!! " + "\n"
+        elif df['Close'][-1] < df['MA120'][-1] :
+            replyMsg += "*跌破半年線!!! " + "\n"
+        else:
+            replyMsg += "Good Lucky~~" + "\n"
         # replyMsg += '操作建議: \n'
         # replyMsg += keyword + "\n"
 
